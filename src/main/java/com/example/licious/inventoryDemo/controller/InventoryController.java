@@ -2,6 +2,7 @@ package com.example.licious.inventoryDemo.controller;
 
 import com.example.licious.inventoryDemo.model.transactionEnum;
 import com.example.licious.inventoryDemo.service.InventoryService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ public class InventoryController {
         this.inventoryService = inventoryService;
     }
 
+    @Operation(summary = "Add to Inventory via Restocking.")
     @PostMapping("/add")
     public ResponseEntity<String> addInventory(@RequestBody AddInventoryRequest request){
         try {
@@ -41,6 +43,7 @@ public class InventoryController {
         }
     }
 
+    @Operation(summary = "Add to Inventory via Item Return.")
     @PostMapping("/return")
     public ResponseEntity<String> addReturnedItem(@RequestBody AddInventoryRequest request){
         try {
@@ -59,6 +62,8 @@ public class InventoryController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @Operation(summary = "Remove from Inventory via valid Order.")
     @PostMapping("/fulfill")
     public ResponseEntity<String> fulfillInventory(@RequestBody FulfillInventoryRequest request) {
         try {

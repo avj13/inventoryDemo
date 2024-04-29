@@ -1,6 +1,7 @@
 package com.example.licious.inventoryDemo.controller;
 
 import io.micrometer.core.instrument.MeterRegistry;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ public class PrometheusController {
         this.meterRegistry = meterRegistry;
     }
 
+    @Operation(summary = "Endpoint to view custom metrics.")
     @GetMapping("/metrics")
     public ResponseEntity<String> metrics() {
         return ResponseEntity
