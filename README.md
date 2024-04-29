@@ -32,12 +32,8 @@ This repository contains a Spring Boot application for an Inventory Management S
    ./mvnw spring-boot:run
    ```
 (Optional)
-4. Configure Prometheus and Grafana:
+4. Configure Prometheus and Grafana: (Configurations Needed)
    - Start Prometheus and Grafana using Docker:
-     ```bash
-     docker run -d --name prometheus prom/prometheus -config.file=prometheus.yml
-     docker run -d --name grafana grafana/grafana
-     ```
    - Configure Prometheus to scrape metrics from `localhost:8080` in `prometheus.yml`.
    - Prometheus data source in Grafana can be added
 
