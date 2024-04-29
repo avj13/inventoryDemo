@@ -1,11 +1,17 @@
 package com.example.licious.inventoryDemo.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class InventoryTransactions {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,7 +25,7 @@ public class InventoryTransactions {
     private transactionEnum transactionType;
     private int quantity;
 
-    @Column(name = "timestamp", nullable = false, updatable = false, insertable = false)
+    @Column(name = "created_at_timestamp", nullable = false, updatable = false, insertable = false)
     @CreationTimestamp
     private Timestamp timestamp;
     private String description;
