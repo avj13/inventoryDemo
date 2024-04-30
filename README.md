@@ -32,6 +32,7 @@ This repository contains a Spring Boot application for an Inventory Management S
    ./mvnw spring-boot:run
    ```
 (Optional)
+
 4. Configure Prometheus and Grafana: (Configurations Needed)
    - Start Prometheus and Grafana using Docker:
    - Configure Prometheus to scrape metrics from `localhost:8080` in `prometheus.yml`.
@@ -39,7 +40,7 @@ This repository contains a Spring Boot application for an Inventory Management S
 
 5. Access the Application:
    - Inventory Management System: http://localhost:8080
-   - Health Metrics: http://localhost:8080/actuator/prometheus
+   - Health Metrics: http://localhost:8080/actuator/health
    - Prometheus Metrics: http://localhost:8080/actuator/prometheus
 
 
