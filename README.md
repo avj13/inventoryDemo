@@ -41,6 +41,7 @@ This repository contains a Spring Boot application for an Inventory Management S
 5. Access the Application:
    - Inventory Management System: http://localhost:8080
    - Prometheus Metrics: http://localhost:8080/actuator/prometheus
+   - Swagger Documentation : http://localhost:8080/swagger-ui.html
 
 
 ### Additional Notes
