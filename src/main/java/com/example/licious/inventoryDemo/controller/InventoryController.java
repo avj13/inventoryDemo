@@ -79,19 +79,6 @@ public class InventoryController {
         }
     }
 
-    @Operation(summary = "Add to Inventory via Restocking.")
-    @PostMapping("/get")
-    public ResponseEntity<String> getAllInventory(){
-        try {
-            ResponseEntity reponse = inventoryService.getAllInventory();
-            logger.info("Publish All Available Inventory.");
-            return ResponseEntity.ok("");
-        } catch (IllegalArgumentException e) {
-            logger.error("Error at {}_{}: {}", "InventoryController", "addInventory", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
     @Data
     static class AddInventoryRequest {
         private int productId;

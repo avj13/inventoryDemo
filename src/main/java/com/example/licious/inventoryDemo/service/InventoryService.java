@@ -7,5 +7,4 @@ public interface InventoryService {
 
     void addInventory(int productId, int quantity, String transactionType);
 
-    ResponseEntity getAllInventory();
 }

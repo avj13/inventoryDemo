@@ -74,9 +74,5 @@ public class InventoryServiceImpl implements InventoryService {
         inventoryTransactionRepository.save(transaction);
     }
 
-    @Override
-    public ResponseEntity getAllInventory() {
-        return (ResponseEntity) inventoryRepository.findAll();
-    }
 
 }
