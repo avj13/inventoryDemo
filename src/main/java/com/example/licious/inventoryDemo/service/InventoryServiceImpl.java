@@ -5,11 +5,12 @@ import com.example.licious.inventoryDemo.model.InventoryTransactions;
 import com.example.licious.inventoryDemo.model.transactionEnum;
 import com.example.licious.inventoryDemo.repository.InventoryRepository;
 import com.example.licious.inventoryDemo.repository.InventoryTransactionRepository;
+import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.prometheus.client.Counter;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -26,13 +27,13 @@ public class InventoryServiceImpl implements InventoryService {
     private final InventoryTransactionRepository inventoryTransactionRepository;
 
     public InventoryServiceImpl(MeterRegistry meterRegistry, InventoryRepository inventoryRepository, InventoryTransactionRepository inventoryTransactionRepository) {
-        this.returnCounter = (Counter) meterRegistry.counter("item_refund_counter");
+        this.returnCounter = meterRegistry.counter("item_refund_counter");
         this.inventoryRepository = inventoryRepository;
         this.inventoryTransactionRepository = inventoryTransactionRepository;
     }
 
     @Override
-    public void fulfillInventory(String productId, int quantity) {
+    public void fulfillInventory(int productId, int quantity) {
         Inventory inventory = inventoryRepository.findByProductId(productId).orElseThrow(() -> new IllegalArgumentException("Product not found: " + productId));
 
         if(inventory.getCurrentQuantity() < quantity){
@@ -49,7 +50,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public void addInventory(String productId, int quantity, String transactionType){
+    public void addInventory(int productId, int quantity, String transactionType){
         Inventory inventory = inventoryRepository.findByProductId(productId).orElseThrow(() -> new IllegalArgumentException("Product not found: " + productId));
 
         if(inventory.getCurrentQuantity() + quantity > inventory.getMaxQuantity()){
@@ -58,14 +59,24 @@ public class InventoryServiceImpl implements InventoryService {
         }
 
         if(Objects.equals(transactionType, transactionEnum.RETURN.toString()))
-            returnCounter.inc();
+            returnCounter.increment();
 
         inventory.setCurrentQuantity(inventory.getCurrentQuantity() + quantity);
         inventoryRepository.save(inventory);
         logger.info("Inventory Updated. Type: " + transactionType + " Product: " + productId + " +" + quantity+".");
 
-        InventoryTransactions transaction = InventoryTransactions.builder().productId(productId).transactionType(transactionEnum.valueOf(transactionType)).quantity(quantity).build();
+        InventoryTransactions transaction = new InventoryTransactions();
+        transaction.setProductId(productId);
+        transaction.setTransactionType(transactionEnum.valueOf(transactionType));
+        transaction.setQuantity(quantity);
+
+//        InventoryTransactions transaction = InventoryTransactions.builder().productId(productId).transactionType(transactionEnum.valueOf(transactionType)).quantity(quantity).build();
         inventoryTransactionRepository.save(transaction);
     }
-    
+
+    @Override
+    public ResponseEntity getAllInventory() {
+        return (ResponseEntity) inventoryRepository.findAll();
+    }
+
 }

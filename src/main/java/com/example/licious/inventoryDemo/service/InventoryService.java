@@ -1,7 +1,11 @@
 package com.example.licious.inventoryDemo.service;
 
-public interface InventoryService {
-    void fulfillInventory(String productId, int quantity);
+import org.springframework.http.ResponseEntity;
 
-    void addInventory(String productId, int quantity, String transactionType);
+public interface InventoryService {
+    void fulfillInventory(int productId, int quantity);
+
+    void addInventory(int productId, int quantity, String transactionType);
+
+    ResponseEntity getAllInventory();
 }

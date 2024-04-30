@@ -1,50 +1,25 @@
 package com.example.licious.inventoryDemo.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
-    private Long id;
-    @ManyToOne
-    @JoinColumn(name = "product_id_id")
-    private Long productId;
+    private int id;
+    
+    @Column(name = "product_id")
+    private int productId;
+
+    @Column(name = "current_quantity")
     private int currentQuantity;
+
+    @Column(name = "max_quantity")
     private int maxQuantity;
-
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public int getCurrentQuantity() {
-        return currentQuantity;
-    }
-
-    public void setCurrentQuantity(int currentQuantity) {
-        this.currentQuantity = currentQuantity;
-    }
-
-    public int getMaxQuantity() {
-        return maxQuantity;
-    }
-
-    public void setMaxQuantity(int maxQuantity) {
-        this.maxQuantity = maxQuantity;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setIda(Long id) {
-        this.id = id;
-    }
 
 }
